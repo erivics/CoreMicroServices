@@ -24,7 +24,7 @@ namespace Discount.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(Coupon), (int)HttpStatusCode.Created)]
         public async Task<ActionResult<Coupon>> CreateDiscount(Coupon coupon)
         {
             await _discountRepository.CreateDiscount(coupon);
