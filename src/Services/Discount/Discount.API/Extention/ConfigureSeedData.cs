@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Discount.API.Repositories;
+using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Runtime.CompilerServices;
 
@@ -6,14 +7,15 @@ namespace Discount.API.Extention
 {
     public static class ConfigureSeedData
     {
-        public static IApplicationBuilder MigrateDatabase<TContext> (this IApplicationBuilder applicationBuilder, int? retry = 0)
+        public static void MigrateDatabase<TContext>(this IApplicationBuilder app, int? retry = 0)
         {
+            //int? retry = 0;
             int retryForAvailability = retry.Value;
 
-            using (var scope = applicationBuilder.ApplicationServices.CreateScope())
+            using (var scope = app.ApplicationServices.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var configuration = services.GetRequiredService<IConfiguration>();  
+                var configuration = services.GetRequiredService<IConfiguration>();
                 var logger = services.GetRequiredService<ILogger<TContext>>();
                 try
                 {
@@ -36,26 +38,26 @@ namespace Discount.API.Extention
                                                                 Amount INT)";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "INSERT INTO Coupon(ProductName, Description Amount) VALUES('Iphone x', 'IPhone discount', 150)";
+                    command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Techno5', 'Techno5 discount', 150)";
                     command.ExecuteNonQuery();
 
 
-                    command.CommandText = "INSERT INTO Coupon(ProductName, Description Amount) VALUES('Samsung 10', 'Samsung discount', 200)";
+                    command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES('Samsung', 'Samsung discount', 200)";
                     command.ExecuteNonQuery();
 
                     logger.LogInformation("Migrated postgresql database");
                 }
                 catch (NpgsqlException ex)
                 {
+                    //To perform retry operation
                     logger.LogError(ex, "An error occurred while migrating the postgresql database");
                     if ( retryForAvailability < 50)
                     {
                         retryForAvailability++;
                         System.Threading.Thread.Sleep(2000);
-                        MigrateDatabase<TContext>(applicationBuilder, retryForAvailability);
+                        MigrateDatabase<TContext>(app, retryForAvailability);
                     }
-                }
-                return applicationBuilder;
+                }            
             }
         }
     }
