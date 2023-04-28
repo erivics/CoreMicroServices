@@ -24,7 +24,6 @@ namespace Discount.API.Repositories
             {
                 return new Coupon { ProductName = "No Discount", Amount = 0, Description = "No discount Desc" };
             }
-
             return coupon;
         }
         public async Task<bool> CreateDiscount(Coupon coupon)
@@ -68,6 +67,5 @@ namespace Discount.API.Repositories
 
             return true;
         }
-    }       
-    
+    }          
 }
