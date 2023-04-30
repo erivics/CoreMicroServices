@@ -1,6 +1,7 @@
 ﻿using Npgsql;
 
-namespace Discount.API.Extention
+
+namespace Discount.Grpc.Extention
 {
     public static class ConfigureSeedData
     {
