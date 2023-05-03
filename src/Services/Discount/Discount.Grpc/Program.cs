@@ -26,7 +26,7 @@ builder.Services.AddGrpc();
 
 var app = builder.Build();
 
-ConfigureSeedData.MigrateDatabase<Program>(app);
+//ConfigureSeedData.MigrateDatabase<Program>(app);
 
 // Configure the HTTP request pipeline.
 app.MapGrpcService<DiscountService>();
