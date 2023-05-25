@@ -24,6 +24,7 @@ namespace Ordering.Infrastructure.Mail
 
             var subject = email.Subject;
             var to = new EmailAddress(email.To);
+
             var emailBody = email.Body;
 
             var from = new EmailAddress
