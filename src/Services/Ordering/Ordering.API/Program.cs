@@ -18,13 +18,13 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 //Running seeded data
-HostExtensions.MigrateDatabase<OrderContext>(app, (context, services) =>
-{
-    var logger = app.Services.GetService<ILogger<OrderContextSeed>>();
-    OrderContextSeed
-                .SeedAsync(context, logger)
-                .Wait();
-});
+//HostExtensions.MigrateDatabase<OrderContext>(app, (context, services) =>
+//{
+//    var logger = app.Services.GetService<ILogger<OrderContextSeed>>();
+//    OrderContextSeed
+//                .SeedAsync(context, logger)
+//                .Wait();
+//});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

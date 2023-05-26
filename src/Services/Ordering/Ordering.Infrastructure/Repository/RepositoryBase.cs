@@ -56,7 +56,7 @@ namespace Ordering.Infrastructure.Repository
 
         public  async Task<T> GetByIdAsync(int id)
         {
-            return await _dbContext.Set<T>().FindAsync();
+            return await _dbContext.Set<T>().FindAsync(id);
         }
 
         #region Add/Update/Delete
