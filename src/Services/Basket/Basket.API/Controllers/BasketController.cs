@@ -3,6 +3,7 @@ using Basket.API.Entities;
 using Basket.API.GrpcServices;
 using Basket.API.Repositories;
 using EventBus.Messages.Events;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -14,12 +15,15 @@ namespace Basket.API.Controllers
     {
         private readonly IBasketRepository _basketRepository;
         private readonly DiscountGrpcService _discountGrpcService;
+        private readonly IPublishEndpoint _publishEndpoint;
         private IMapper _mapper;
-        public BasketController(IBasketRepository basketRepository, DiscountGrpcService discountGrpcService, IMapper mapper)
+        public BasketController(IBasketRepository basketRepository, DiscountGrpcService discountGrpcService, IMapper mapper,
+                  IPublishEndpoint publishEndpoint)
         {
             _basketRepository = basketRepository;
             _discountGrpcService = discountGrpcService;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         [HttpGet("{userName}", Name = "GetBasket")]
@@ -66,7 +70,8 @@ namespace Basket.API.Controllers
             }
 
             var eventMessage = _mapper.Map<BasketCheckoutEvent>(basketCheckout);
-            
+            eventMessage.TotalPrice = basket.TotalPrice;
+            await _publishEndpoint.Publish(eventMessage);
             await _basketRepository.DeleteBasket(basketCheckout.UserName);
             
             return Accepted();
