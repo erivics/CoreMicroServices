@@ -1,5 +1,6 @@
 using EventBus.Messages.Common;
 using MassTransit;
+using Ordering.API.EventBusConsumer;
 using Ordering.Application;
 using Ordering.Infrastructure;
 
@@ -23,6 +24,10 @@ builder.Services.AddMassTransit(config => {
         });
     });
 });
+
+//General Config
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<BasketCheckoutConsumer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -4,7 +4,7 @@ namespace Ordering.Application.Features.Orders.Command.CheckOutOrder
 {
     public class CheckoutOrderCommand : IRequest<int>
     {
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         public decimal TotalPrice { get; set; }
 
         //Billing Address
