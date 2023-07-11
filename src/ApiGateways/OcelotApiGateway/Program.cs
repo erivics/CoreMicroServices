@@ -1,4 +1,8 @@
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddOcelot();
 builder.Services.AddLogging(configure =>
 {
     configure.AddConfiguration(builder.Configuration.GetSection("Logging"));
@@ -8,7 +12,7 @@ builder.Services.AddLogging(configure =>
 
 var app = builder.Build();
 
-
+await app.UseOcelot();
 
 app.MapGet("/", () => "Hello World!");
 
