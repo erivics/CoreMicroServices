@@ -119,7 +119,7 @@ services:
       - "EventBusSettings:HostAddress=amqp://guest:quest@localhost:5672"
     depends_on:
       - orderdb
-      - rabbimq
+      - rabbitmq
     ports:
       - "8004:80"
 
